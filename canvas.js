@@ -27,40 +27,35 @@ tool.lineWidth = penWidth;
 
 // mousedown -> start new path, mousemove -> path fill (graphics)
 canvas.addEventListener("mousedown", (e) => {
-    mouseDown = true;
-    let data = {
+    mouseDown=true;
+    beginPath({
+    
         x: e.clientX,
         y: e.clientY
-    }
-    // send data to server
-    socket.emit("beginPath", data);
+    })
+
+    
 })
 canvas.addEventListener("mousemove", (e) => {
-    if (mouseDown) {
-        let data = {
+    if (mouseDown) drawStroke({
+        
             x: e.clientX,
-            y: e.clientY,
-            color: eraserFlag ? eraserColor : penColor,
-            width: eraserFlag ? eraserWidth : penWidth
-        }
-        socket.emit("drawStroke", data);
-    }
+            y: e.clientY
+           
+    })
 })
 canvas.addEventListener("mouseup", (e) => {
     mouseDown = false;
 
-    let url = canvas.toDataURL();
-    undoRedoTracker.push(url);
-    track = undoRedoTracker.length-1;
 })
+
 
 function beginPath(strokeObj) {
     tool.beginPath();
     tool.moveTo(strokeObj.x, strokeObj.y);
 }
 function drawStroke(strokeObj) {
-    tool.strokeStyle = strokeObj.color;
-    tool.lineWidth = strokeObj.width;
+    
     tool.lineTo(strokeObj.x, strokeObj.y);
     tool.stroke();
 }
@@ -93,12 +88,8 @@ eraser.addEventListener("click", (e) => {
 
 download.addEventListener("click", (e) => {
     let url = canvas.toDataURL();
-
     let a = document.createElement("a");
     a.href = url;
     a.download = "board.jpg";
     a.click();
 })
-
-
-
