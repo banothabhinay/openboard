@@ -101,13 +101,4 @@ download.addEventListener("click", (e) => {
 })
 
 
-socket.on("beginPath", (data) => {
-    // data -> data from server
-    beginPath(data);
-})
-socket.on("drawStroke", (data) => {
-    drawStroke(data);
-})
-socket.on("redoUndo", (data) => {
-    undoRedoCanvas(data);
-})
+
