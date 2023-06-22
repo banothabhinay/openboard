@@ -54,37 +54,6 @@ canvas.addEventListener("mouseup", (e) => {
     track = undoRedoTracker.length-1;
 })
 
-undo.addEventListener("click", (e) => {
-    if (track > 0) track--;
-    // track action
-    let data = {
-        trackValue: track,
-        undoRedoTracker
-    }
-    socket.emit("redoUndo", data);
-})
-redo.addEventListener("click", (e) => {
-    if (track < undoRedoTracker.length-1) track++;
-    // track action
-    let data = {
-        trackValue: track,
-        undoRedoTracker
-    }
-    socket.emit("redoUndo", data);
-})
-
-function undoRedoCanvas(trackObj) {
-    track = trackObj.trackValue;
-    undoRedoTracker = trackObj.undoRedoTracker;
-
-    let url = undoRedoTracker[track];
-    let img = new Image(); // new image reference element
-    img.src = url;
-    img.onload = (e) => {
-        tool.drawImage(img, 0, 0, canvas.width, canvas.height);
-    }
-}
-
 function beginPath(strokeObj) {
     tool.beginPath();
     tool.moveTo(strokeObj.x, strokeObj.y);
